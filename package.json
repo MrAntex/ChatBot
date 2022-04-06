@@ -1,0 +1,14 @@
+{
+  "name": "projet",
+  "version": "1.0.0",
+  "description": "Oui le chabot oui",
+  "main": "index.js",
+  "scripts": {
+    "test": "start"
+  },
+  "author": "Moi",
+  "license": "ISC",
+  "dependencies": {
+    "rivescript": "^2.2.0"
+  }
+}
