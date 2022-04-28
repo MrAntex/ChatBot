@@ -1,0 +1,1 @@
+In a powershell, use "nodemon ./Server/app.js" in the ChatBot folder.

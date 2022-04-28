@@ -1,0 +1,30 @@
+<nav>
+  <div class="site-title">
+    <a href="/users">
+      <h1>Chat bot</h1>
+    </a>
+    <p>
+      <%=subtitle%>
+    </p>
+    </div>
+    <div class="outside">
+      <ul>
+        <% if(user) { %>
+          <li>Welcome, <%=user.email%>
+          </li>
+          <li><a href="/auth/logout">Log out</a></li>
+          <% } else {%>
+            <li><a href="/auth/login">Log in</a></li>
+            <li><a href="/auth/signup" class="btn">Sign up</a></li>
+            <% } %>
+      </ul>
+      <div class="inside">
+        <ul>
+          <li><a href="/auth/">Home</a></li>
+          <li><a href="/bots">Bots</a></li>
+          <li><a href="/bots/create">Create new bot</a></li>
+          <li><a href="/users/">User interface</a></li>
+        </ul>
+      </div>
+    </div>
+</nav>

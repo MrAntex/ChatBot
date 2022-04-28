@@ -1,0 +1,18 @@
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+
+    <body>
+        <%- include("./partials/nav.ejs") %>
+
+            <div class="create-blog content">
+                <form action="/bots/add-bot" method="POST">
+                    <label for="name">Bot name:</label>
+                    <input type="text" id="name" name="name" required>
+                    <label for="port">Port number:</label>
+                    <input type="text" id="port" name="port" required>
+                    <button>Create</button>
+                </form>
+            </div>
+    </body>
+
+</html>

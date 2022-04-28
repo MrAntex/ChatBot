@@ -1,0 +1,27 @@
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+
+    <body>
+        <%- include("./partials/nav.ejs") %>
+
+            <div class="blogs content">
+                <h2>All Bots</h2>
+
+                <% if (bots.length> 0) { %>
+                    <% bots.forEach(bot=> { %>
+                        <a class="single" href="/bots/<%= bot._id %>">
+                            <h3 class="name">
+                                <%= bot.name %>
+                            </h3>
+                            <p class="snippet">
+                            </p>
+                        </a>
+                        <% }) %>
+                            <% } else { %>
+                                <p>There are no bot. Please create one</p>
+                                <% } %>
+            </div>
+
+    </body>
+
+</html>
