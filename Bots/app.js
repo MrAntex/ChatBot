@@ -16,7 +16,7 @@ app.listen(port, (err) => {
 })
 // register view engine
 app.set('view engine', 'ejs');
-app.set('views','./Bots/views');
+app.set('views', './Bots/views');
 
 // middleware & static files
 
@@ -28,18 +28,17 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use("/",botRoutes);
+app.use("/", botRoutes);
 app.use(express.static('./Bots/public'));
 
 // routes
 app.get('/', (req, res) => {
     res.render('index');
-  });
+});
 // bot routes
 
 
 // 404 page
 app.use((req, res) => {
-    res.status(404).render('./404/404', { title: '404',subtitle:'' });
+    res.status(404).render('./404/404', { title: '404', subtitle: '' });
 });
-

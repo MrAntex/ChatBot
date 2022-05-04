@@ -22,6 +22,7 @@ const bot_index = (req, res) => {
 }
 
 const users_start = (req, res) => { // Start a bot server if it is not already up
+    console.log("brain",req.params.brain);
     Bot.findById(req.params.id)
         .then(result => {
             http.get(`http://localhost:${result.port}`, () => { // Check if the page is already up
