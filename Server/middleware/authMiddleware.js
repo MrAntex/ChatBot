@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 
-
+// Si l'utilisateur n'est pas connecté, redirige vers la page Login
 const requireAuth = (req, res, next) => {
     const token = req.cookies.jwt;
 
@@ -22,7 +22,8 @@ const requireAuth = (req, res, next) => {
     }
 }
 
-
+// Permet de connaitre l'utilisateur actuellement connecté pour afficher
+// son mail dans une view
 const checkUser = (req, res, next) => {
     const token = req.cookies.jwt;
     if (token) {
@@ -42,6 +43,7 @@ const checkUser = (req, res, next) => {
     }
 };
 
+// Vérifie que l'utilisateur connecté a les privilèges d'admin
 const requireAdmin = (req, res, next) => {
     const token = req.cookies.jwt;
     if (token) {

@@ -4,8 +4,6 @@ const spawn = require('child_process').spawn;
 const http = require('http');
 const fs = require('fs');
 
-
-
 const bot_index = (req, res) => {
     var liste = fs.readdirSync('./Server/brains');
     var brains = [];

@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <title>Simple ChatAI using RiveScript.js</title>
+  <title>Chat Bot</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -18,40 +18,8 @@
     const message_container = document.querySelector('.messages');
     const form = document.querySelector('form');
     const input_box = document.querySelector('input');
-    form.addEventListener('submit', (e) => {
-      console.log(input_box.value);
-      e.preventDefault();
-      selfReply(input_box.value);
-      
-      let myHeaders = new Headers();
-			myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
-			let payload = {
-        message : input_box.value
-			};
-			//let myBody = JSON.stringify(payload);
-			let myInit = {
-        method: 'POST',
-				headers: myHeaders,
-				mode: 'cors',
-				cache: 'default',
-				//body: myBody
-        body : new URLSearchParams({"message":input_box.value})
-			};
-			let myURL = `/message`;
-      
-      input_box.value = '';
-			//launch the request
-			fetch(myURL, myInit)
-        .then(response => response.text())
-				.then((result) => {
-          console.log(result);
-          botReply(result);
-				})
-				.catch((err) => {
-					console.log(`ERROR : ${err}`);
-				})
-    });
 
+    
     function botReply(message) {
       message_container.innerHTML += `<div class="bot">${message}</div>`;
       location.href = '#edge';
@@ -59,8 +27,41 @@
     function selfReply(message) {
       message_container.innerHTML += `<div class="self">${message}</div>`;
       location.href = '#edge';
-      }
+    }
+    botReply('Hello');
 
+    form.addEventListener('submit', (e) => {
+      console.log(input_box.value);
+      e.preventDefault();
+      selfReply(input_box.value);
+
+      let myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+      let payload = {
+        message: input_box.value
+      };
+      let myBody = JSON.stringify(payload);
+      let myInit = {
+        method: 'POST',
+        headers: myHeaders,
+        mode: 'cors',
+        cache: 'default',
+        body: myBody
+      };
+      let myURL = `/message`;
+
+      input_box.value = '';
+      //launch the request
+      fetch(myURL, myInit)
+        .then(response => response.text())
+        .then((result) => {
+          console.log(result);
+          botReply(result);
+        })
+        .catch((err) => {
+          console.log(`ERROR : ${err}`);
+        })
+    });
   </script>
 </body>
 

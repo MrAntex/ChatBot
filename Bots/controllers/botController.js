@@ -12,15 +12,16 @@ function botNotReady(err) {
     console.log('An error has occurred.', err);
 }
 
-bot.loadFile(brains).then(botReady).catch(botNotReady);
+bot.loadFile(brains)
+    .then(botReady)
+    .catch(botNotReady);
 
 const send_message = async (req, res) => {
     const message = req.body.message;
     console.log('message', message);
     console.log('message length', message.length);
     console.log('message type', typeof message);
-    const answer = await bot.reply("",message);
-    console.log('answer', answer);
+    const answer = await bot.reply("", message);
     res.send(answer);
 }
 

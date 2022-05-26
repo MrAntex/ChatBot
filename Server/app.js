@@ -7,15 +7,16 @@ const usersRoutes = require('./routes/usersRoutes');
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
 const { requireAuth, checkUser, requireAdmin } = require('./middleware/authMiddleware');
-
-
+const { ModalSubmitFieldsResolver } = require('discord.js');
+require('./discordBot.js');
+require('dotenv').config();
 // express app
 const app = express();
 
-const port = 3001;
+const port = process.env.PORT;
 
 // Connect to MongoDB and listen for requests
-const dbURI = 'mongodb+srv://ProjetChatBot:WD0QRypXsiO0wnnN@cluster0.vpreh.mongodb.net/ProjetChatBot?retryWrites=true&w=majority';
+const dbURI = process.env.dbURI;
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then((result) => {
         console.log('Connected to db');
@@ -57,3 +58,6 @@ app.use((req, res) => {
     res.status(404).render('./404/404', { title: '404', subtitle: '' });
 });
 
+module.exports = {
+    port : port
+};
