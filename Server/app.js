@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const botRoutes = require('./routes/botRoutes');
 const usersRoutes = require('./routes/usersRoutes');
 const authRoutes = require('./routes/authRoutes');
+const discordRoutes = require('./routes/discordRoutes');
 const cookieParser = require('cookie-parser');
 const { requireAuth, checkUser, requireAdmin } = require('./middleware/authMiddleware');
 const { ModalSubmitFieldsResolver } = require('discord.js');
@@ -52,6 +53,7 @@ app.get('/', (req, res) => {
 app.use('/bots', requireAuth, requireAdmin, botRoutes);
 app.use('/users', requireAuth, usersRoutes);
 app.use('/auth', authRoutes);
+app.use('/discord', discordRoutes);
 
 // 404 page
 app.use((req, res) => {

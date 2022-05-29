@@ -1,20 +1,14 @@
 const RiveScript = require('rivescript');
 
 let bot = new RiveScript();
-const brains = [
-    // 'https://gist.githubusercontent.com/awesammcoder/91e0f6c527bfdc03b8815289ca4af150/raw/6410ce00b7e1ea0dbd28be03b6eaab64252a841d/brain.rive'
-    './Server/brains/Jim.rive'
-];
+
 function botReady() {
     bot.sortReplies();
-}
+};
 function botNotReady(err) {
     console.log('An error has occurred.', err);
-}
+};
 
-bot.loadFile(brains)
-    .then(botReady)
-    .catch(botNotReady);
 
 const send_message = async (req, res) => {
     const message = req.body.message;
@@ -23,8 +17,18 @@ const send_message = async (req, res) => {
     console.log('message type', typeof message);
     const answer = await bot.reply("", message);
     res.send(answer);
-}
+};
+
+const set_Brain = (req,res) => {
+    const brain = req.body.brain;
+    const brainPath = './Server/brains/' + brain+ '.rive';
+    bot.loadFile(brainPath)
+    .then(botReady)
+    .catch(botNotReady);
+    res.send("It's ok");
+};
 
 module.exports = {
-    send_message
+    send_message,
+    set_Brain
 }

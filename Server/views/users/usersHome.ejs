@@ -9,7 +9,7 @@
 
                 <% if (bots.length> 0) { %>
                     <% bots.forEach(bot=> { %>
-                        <a id="linkBot" class="single" href="/users/start/<%= bot._id %>">
+                        <a id="linkBot" class="single" href="/users/start/?id=<%= bot._id %>&brain=Empty">
                             <h3 class="name">
                                 <%= bot.name %>
                             </h3>
