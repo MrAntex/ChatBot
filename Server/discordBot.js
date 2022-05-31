@@ -3,7 +3,7 @@ const fs = require('fs');
 const fetch = require("node-fetch");
 const { Client, Intents, MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 require('dotenv').config();
-
+const Brain = require('./models/brainModel');
 const port = process.env.PORT;
 
 const myIntents = new Intents();

@@ -8,6 +8,12 @@
                     <input type="text" placeholder="<%= bot.name %>" value="<%= bot.name %>" id="name" name="name" required>
                     <label for="port">Port number:</label>
                     <input type="text" placeholder="<%= bot.port %>" value="<%= bot.port %>" id="port" name="port" required>
+                    <label for="discord_access">Discord Access:</label>
+                    <select name="discord_access" id="discord_access">
+                        <option value="true">true</option>
+                        <option value="false">false</option>
+                    </select>
+                    <br> 
                     <button>Edit</button>
                 </form>
             </div>

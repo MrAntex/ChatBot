@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const botRoutes = require('./routes/botRoutes');
 const usersRoutes = require('./routes/usersRoutes');
 const authRoutes = require('./routes/authRoutes');
+const brainRoutes = require('./routes/brainRoutes');
 const discordRoutes = require('./routes/discordRoutes');
 const cookieParser = require('cookie-parser');
 const { requireAuth, checkUser, requireAdmin } = require('./middleware/authMiddleware');
@@ -54,12 +55,9 @@ app.use('/bots', requireAuth, requireAdmin, botRoutes);
 app.use('/users', requireAuth, usersRoutes);
 app.use('/auth', authRoutes);
 app.use('/discord', discordRoutes);
+app.use('/brain',requireAuth, requireAdmin, brainRoutes);
 
 // 404 page
 app.use((req, res) => {
     res.status(404).render('./404/404', { title: '404', subtitle: '' });
 });
-
-module.exports = {
-    port : port
-};

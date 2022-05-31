@@ -1,6 +1,5 @@
 const Bot = require('../models/botModel');
 
-
 const bot_create = (req, res) => {
     // const port 
     res.render('./admin/create', { title: 'Create a new bot', subtitle: '' });
@@ -58,7 +57,6 @@ const bot_edit_window = (req, res) => {
 
 const bot_edit = (req, res) => {
     const update = req.body;
-    console.log(update);
     let doc = Bot.findByIdAndUpdate(req.params.id, update)
         .then((result) => {
             res.redirect('/bots');

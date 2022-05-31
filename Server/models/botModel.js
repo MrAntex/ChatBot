@@ -13,6 +13,10 @@ const botSchema = new Schema({
     port: {
         type: Number,
         required:true
+    },
+    discord_access: {
+        type: Boolean,
+        required:true
     }
 
 }, { timestamps: true });
