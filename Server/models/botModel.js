@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const botSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        unique:true
     },
     memory: {
         type: [{ user_id: Number, brain:{infos:{} } }],
@@ -12,9 +13,14 @@ const botSchema = new Schema({
     },
     port: {
         type: Number,
-        required:true
+        required:true,
+        unique:true
     },
     discord_access: {
+        type: Boolean,
+        required:true
+    },
+    status: {
         type: Boolean,
         required:true
     }

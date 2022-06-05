@@ -1,6 +1,5 @@
 const bodyParser = require('body-parser');
 const express = require('express');
-const { result, reduce } = require('lodash');
 const mongoose = require('mongoose');
 const botRoutes = require('./routes/botRoutes');
 const usersRoutes = require('./routes/usersRoutes');
@@ -9,9 +8,12 @@ const brainRoutes = require('./routes/brainRoutes');
 const discordRoutes = require('./routes/discordRoutes');
 const cookieParser = require('cookie-parser');
 const { requireAuth, checkUser, requireAdmin } = require('./middleware/authMiddleware');
-const { ModalSubmitFieldsResolver } = require('discord.js');
 require('./discordBot.js');
 require('dotenv').config();
+const http = require('http');
+
+const Bot = require('./models/botModel');
+
 // express app
 const app = express();
 
@@ -31,6 +33,14 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     })
     .catch((err) => { console.log(err) });
 
+const res = Bot.find().sort({ createdAt: -1 })
+    .then((result) => {
+        result.forEach((bot) => {
+            Bot.updateOne({ _id: bot._id }, { $set: { status: false } }, function (err, user) {
+                if (err) return handleError(err);
+            });
+        });
+    });
 // register view engine
 app.set('view engine', 'ejs');
 app.set('views', './Server/views');
@@ -55,7 +65,7 @@ app.use('/bots', requireAuth, requireAdmin, botRoutes);
 app.use('/users', requireAuth, usersRoutes);
 app.use('/auth', authRoutes);
 app.use('/discord', discordRoutes);
-app.use('/brain',requireAuth, requireAdmin, brainRoutes);
+app.use('/brains', requireAuth, requireAdmin, brainRoutes);
 
 // 404 page
 app.use((req, res) => {

@@ -1,4 +1,8 @@
 const Bot = require('../models/botModel');
+require('dotenv').config()
+
+const port = process.env.PORT;
+
 
 const bot_create = (req, res) => {
     // const port 
@@ -16,10 +20,11 @@ const bot_add = (req, res) => {
             res.status(400).send('BAD REQUEST');
         })
 }
+
 const bot_index = (req, res) => {
     Bot.find().sort({ createdAt: -1 })
-        .then(result => {
-            res.render('./admin/adminHome', { bots: result, title: 'All bots', subtitle: 'Admin home page' });
+        .then((result) => {
+            res.render('./admin/adminHome', { bots: result, title: 'All bots', subtitle: 'Admin home page', port: port });
         })
         .catch(err => {
             console.log(err);
