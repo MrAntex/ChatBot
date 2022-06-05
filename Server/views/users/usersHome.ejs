@@ -21,19 +21,6 @@
                                 <p>There are no bot. Please create one</p>
                                 <% } %>
             </div>
-            <div class="blogs content">
-                <label for="brain-select">Select a brain:</label>
-                <select name="brain" id="brain-select">
-                    <option value="">--Please choose a brain--</option>
-                    <% if (brains.length> 0) { %>
-                        <% brains.forEach(brain=> { %>
-                            <option value=<%=brain%>><%=brain%>
-                            </option>
-                            <% }) %>
-                                <% }%>
-                </select>
-            </div>
-
     </body>
 
 </html>

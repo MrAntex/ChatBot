@@ -4,22 +4,38 @@
   <title>Chat Bot</title>
   <link rel="stylesheet" href="style.css">
 </head>
+<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+<div class="blogs content">
+  <label for="brain-select">Select a brain:</label>
+  <form action="http://localhost:<%=port%>/brain" method="POST" id="form_brain" target="dummyframe">
+    <select name="brain" id="brain-select">
+      <option value="Empty">--Please choose a brain--</option>
+      <% if (brains.length> 0) { %>
+        <% brains.forEach(brain=> { %>
+          <option value=<%=brain.name%>><%=brain.name%>
+          </option>
+          <% }) %>
+            <% }%>
+    </select>
+    <button>Change</button>
+  </form>
+</div>
 
 <body>
   <div class="chat">
     <div class="messages"></div>
     <div id="edge"></div>
-    <form class="actions" method="POST">
+    <form class="actions" method="POST" id="form_message">
       <input type="text" placeholder="press 'Enter' to send…" autofocus>
     </form>
   </div>
 
   <script>
     const message_container = document.querySelector('.messages');
-    const form = document.querySelector('form');
+    const form = document.getElementById('form_message');
     const input_box = document.querySelector('input');
 
-    
+
     function botReply(message) {
       message_container.innerHTML += `<div class="bot">${message}</div>`;
       location.href = '#edge';
@@ -55,7 +71,6 @@
       fetch(myURL, myInit)
         .then(response => response.text())
         .then((result) => {
-          console.log(result);
           botReply(result);
         })
         .catch((err) => {

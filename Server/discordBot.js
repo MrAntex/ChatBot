@@ -4,6 +4,7 @@ const fetch = require("node-fetch");
 const { Client, Intents, MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 require('dotenv').config();
 const Brain = require('./models/brainModel');
+const { forEach } = require('lodash');
 const port = process.env.PORT;
 
 const myIntents = new Intents();
@@ -82,8 +83,8 @@ client.on('messageCreate', (message) => {
     }
 
     if (command === "brains") {
-        var liste = fs.readdirSync('./Server/brains');
         var brains = [];
+        var liste = fs.readdirSync('./Server/brains');
         liste.forEach(elt => {
             brains.push(elt.split(".")[0]);
         })
@@ -96,7 +97,9 @@ client.on('messageCreate', (message) => {
         Bot.find().sort({ createdAt: -1 })
             .then(result => {
                 result.forEach(bot => {
-                    listeBot.push(bot.name);
+                    if(bot.discord_access){
+                        listeBot.push(bot.name);
+                    }
                 })
                 const list = listeBot.map((item, i) => `${i + 1}. ${item}`).join("\r\n");
                 message.channel.send(list);
@@ -112,8 +115,8 @@ client.on('messageCreate', (message) => {
         liste.forEach(elt => {
             brains.push(elt.split(".")[0]);
         })
-        setBrain(brains[Number(args[0])-1]);
-        message.channel.send(`My brain is now : ${brains[Number(args[0])-1]}`)
+        setBrain(brains[Number(args[0]) - 1]);
+        message.channel.send(`My brain is now : ${brains[Number(args[0]) - 1]}`)
     }
 })
 
@@ -156,9 +159,11 @@ function start(message) {
     Bot.find().sort({ createdAt: -1 })
         .then(result => {
             result.forEach(bot => {
-                listeBot.push(bot.name);
-                setupBot.addFields({ name: bot.name, value: numberToWords[index] });
-                index += 1;
+                if (bot.discord_access) {
+                    listeBot.push(bot.name);
+                    setupBot.addFields({ name: bot.name, value: numberToWords[index] });
+                    index += 1;
+                }
             })
             const msg = message.channel.send({ embeds: [setupBot] })
                 .then(embedMessage => {

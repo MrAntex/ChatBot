@@ -3,6 +3,5 @@ const brainController = require('../controllers/brainController');
 
 const router = express.Router();
 
-router.post('/add-brain', brainController.brain_add);
-
+router.post('/refresh', brainController.brain_refresh);
 module.exports = router;

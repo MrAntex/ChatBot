@@ -1,18 +1,29 @@
 const Brain = require('../models/brainModel');
+const fs = require('fs');
+require('dotenv').config();
 
+const port = process.env.PORT;
 
-const brain_add = (req, res) => {
-    const brain = new Brain(req.body);
-    brain.save()
-        .then((result) => {
-            // res.redirect('/bots');
-        })
-        .catch((err) => {
-            console.log(`Error ${err} thrown... stack is : ${err.stack}`);
-            res.status(400).send('BAD REQUEST');
-        })
+const brain_refresh = (req, res) => {
+    var liste = fs.readdirSync('./Server/brains');
+    var brains = '';
+    Brain.deleteMany({}, (result) => {
+        liste.forEach(elt => {
+            brains = elt.split(".")[0];
+            const brain = new Brain({name:brains});
+            brain.save()
+            .then((result) => {
+            })
+            .catch((err) => {
+                console.log(`Error ${err} thrown... stack is : ${err.stack}`);
+                res.status(400).send('BAD REQUEST');
+            })
+        });
+        res.redirect('/bots');
+    })
 }
 
+
 module.exports = {
-    brain_add
+    brain_refresh
 }
