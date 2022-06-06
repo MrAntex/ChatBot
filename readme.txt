@@ -1,5 +1,5 @@
 You need to install all the node packages in both Bots and Server folder.
-Go to each folder and use the command : npm -i   in your shell.
+Go to each folder and use the command : npm i   in your shell.
 
 In a shell, use "nodemon ./Server/app.js" in the ChatBot folder to 
 start the main server.

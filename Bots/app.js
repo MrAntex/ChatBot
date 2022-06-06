@@ -12,7 +12,7 @@ const app = express();
 const port = Number(process.argv.slice(2));
 const dbURI = process.env.dbURI;
 
-
+// Connect to database then listen for requests
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then((result) => {
         console.log('Connected to db');

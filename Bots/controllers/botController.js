@@ -10,7 +10,7 @@ function botNotReady(err) {
     console.log('An error has occurred.', err);
 };
 
-
+// Display the home page
 const home = (req, res) => {
     Brain.find().then(result => {
         const port = Number(process.argv.slice(2));
@@ -18,12 +18,14 @@ const home = (req, res) => {
     });
 }
 
+// Send the bot a message
 const send_message = async (req, res) => {
     const message = req.body.message;
     const answer = await bot.reply("", message);
     res.send(answer);
 };
 
+// Set the bot's brain
 const set_Brain = (req, res) => {
     const brain = req.body.brain;
     const brainPath = './Server/brains/' + brain + '.rive';
