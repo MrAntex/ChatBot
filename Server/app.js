@@ -10,7 +10,6 @@ const cookieParser = require('cookie-parser');
 const { requireAuth, checkUser, requireAdmin } = require('./middleware/authMiddleware');
 require('./discordBot.js');
 require('dotenv').config();
-const http = require('http');
 
 const Bot = require('./models/botModel');
 
@@ -19,7 +18,7 @@ const app = express();
 
 const port = process.env.PORT;
 
-// Connect to MongoDB and listen for requests
+// Connect to MongoDB then listen for requests
 const dbURI = process.env.dbURI;
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then((result) => {
@@ -33,6 +32,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     })
     .catch((err) => { console.log(err) });
 
+// Reset on the database the status of the bots to Offline
 const res = Bot.find().sort({ createdAt: -1 })
     .then((result) => {
         result.forEach((bot) => {
@@ -41,6 +41,7 @@ const res = Bot.find().sort({ createdAt: -1 })
             });
         });
     });
+    
 // register view engine
 app.set('view engine', 'ejs');
 app.set('views', './Server/views');

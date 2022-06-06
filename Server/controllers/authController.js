@@ -31,26 +31,30 @@ const handleErrors = (err) => {
 }
 
 const maxAge = 24 * 60 * 60; // Time before the JW token expires
+// Create a JWT token
 const createToken = (id) => {
     return jwt.sign({ id: id }, 'this is the private key', {
         expiresIn: maxAge
     })
 }
 
+// Display the page to signup a new user
 const signup_get = (req, res) => {
-    res.render('./auth/signup', { title: 'Sign up', subtitle: 'aaa' });
+    res.render('./auth/signup', { title: 'Sign up', subtitle: '' });
 }
 
+// Display the page to login a user
 const login_get = (req, res) => {
     res.render('./auth/login', { title: 'Login', subtitle: '' });
 }
 
+// Logout a user then redirect to the home page
 const logout_get = (req, res) => {
     res.cookie('jwt','',{maxAge:1});
     res.redirect('/');
 }
 
-
+// Create a new user in the database 
 const signup_post = async (req, res) => {
     const { email, password } = req.body;
 
@@ -66,6 +70,7 @@ const signup_post = async (req, res) => {
     }
 }
 
+// Login a user
 const login_post = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -79,10 +84,12 @@ const login_post = async (req, res) => {
     }
 }
 
+// Display the home page
 const home = (req,res) =>{
     res.render('./auth/home',{title:'',subtitle:'Home page'});
 }
 
+// Display the access denied page
 const access_denied = (req, res) => {
     res.render('./auth/deniedPerm', { title: '', subtitle: '' });
 }

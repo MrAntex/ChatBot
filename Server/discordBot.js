@@ -66,22 +66,25 @@ client.on('messageCreate', (message) => {
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
 
+    // Command to start all the process
     if (command === 'start') {
         message.reply("Select a bot");
         start(message);
     }
-
+    // This command shows in the channel the infos about the loaded bot 
     if (command === 'info') {
         message.channel.send("Name : " + bot_selected.name);
         message.channel.send("id : " + bot_selected.id);
         message.channel.send("port : " + bot_selected.port);
         message.channel.send("Brain : " + bot_selected.brain);
     }
+    // This command clears the channel
     if (command === 'reset') {
         clear(message);
         help(message);
     }
-
+    // This command shows the brains available
+    // Brains should be called from database but it does'nt work yet
     if (command === "brains") {
         var brains = [];
         var liste = fs.readdirSync('./Server/brains');
@@ -91,13 +94,13 @@ client.on('messageCreate', (message) => {
         const list = brains.map((item, i) => `${i + 1}. ${item}`).join("\r\n")
         message.channel.send(list);
     }
-
+    // This command shows the bots available 
     if (command === 'bots') {
         var listeBot = [];
         Bot.find().sort({ createdAt: -1 })
             .then(result => {
                 result.forEach(bot => {
-                    if(bot.discord_access){
+                    if (bot.discord_access) {
                         listeBot.push(bot.name);
                     }
                 })
@@ -108,7 +111,7 @@ client.on('messageCreate', (message) => {
     if (command === 'test') {
         console.log(args);
     }
-
+    // This command select the brain to use and loads it
     if (command === 'select') {
         var liste = fs.readdirSync('./Server/brains');
         var brains = [];
@@ -120,6 +123,7 @@ client.on('messageCreate', (message) => {
     }
 })
 
+// This function sends a message to the bot and returns the answer of the bot
 async function sendMessage(message) {
     let myURL = `http://localhost:${bot_selected.port}/message`;
     console.log("message content : " + message.content);
@@ -143,9 +147,9 @@ async function sendMessage(message) {
         })
 }
 
-
+// Function that creates the embed then listen to the reactions
 function start(message) {
-    const setupBot = new MessageEmbed()
+    const setupBot = new MessageEmbed() // Create the embed
         .setColor('#777')
         .setTitle('Bot setting panel')
         .setURL(`http://localhost:${port}`)
@@ -161,7 +165,7 @@ function start(message) {
             result.forEach(bot => {
                 if (bot.discord_access) {
                     listeBot.push(bot.name);
-                    setupBot.addFields({ name: bot.name, value: numberToWords[index] });
+                    setupBot.addFields({ name: bot.name, value: numberToWords[index] }); // Add all the bots to the embed
                     index += 1;
                 }
             })
@@ -170,7 +174,7 @@ function start(message) {
                     for (let i = 0; i < listeBot.length; i++) {
                         embedMessage.react(numberToWords[i]);
                     }
-                    const filter = (reaction, user) => user.id === message.author.id;
+                    const filter = (reaction, user) => user.id === message.author.id; // Get the reaction of the author to the embed
                     const collector1 = embedMessage.createReactionCollector({
                         filter,
                         time: 60 * 1000
@@ -180,7 +184,7 @@ function start(message) {
                         const emoji = reaction._emoji.name;
                         bot_selected.name = listeBot[emojiToNumber[emoji]];
                         collector1.stop();
-                        updateEmbed(message, embedMessage);
+                        updateEmbed(message, embedMessage); // Update the embed according to the reaction of the author
                     })
                 });
         })
@@ -202,7 +206,7 @@ function updateEmbed(message, embedMessage) {
     });
     var index = 0;
     brains.forEach(brain => {
-        setupBrain.addFields({ name: brain, value: numberToWords[index] });
+        setupBrain.addFields({ name: brain, value: numberToWords[index] }); // Add all the brains to the embed
         index += 1;
     })
 
@@ -211,7 +215,7 @@ function updateEmbed(message, embedMessage) {
     }
     embedMessage.edit({ embeds: [setupBrain] });
 
-    const filter = (reaction, user) => user.id === message.author.id;
+    const filter = (reaction, user) => user.id === message.author.id; // Get the reaction of the author to the embed
     const collector2 = embedMessage.createReactionCollector({
         filter,
         time: 1000 * 60
@@ -242,13 +246,13 @@ function startEmbed(message, embedMessage) {
     embedMessage.edit({ embeds: [finalEmbed] });
 
     const row = new MessageActionRow()
-        .addComponents(
+        .addComponents( // Button to start the bot
             new MessageButton()
                 .setCustomId('start_yes')
                 .setLabel('Start')
                 .setStyle('SUCCESS')
         )
-        .addComponents(
+        .addComponents( // Button to reset the process
             new MessageButton()
                 .setCustomId('start_no')
                 .setLabel('Reset')
@@ -274,7 +278,7 @@ function startEmbed(message, embedMessage) {
     })
     message.reply({ content: 'Are you ready ?', components: [row] });
 }
-
+// Function to clear the channel
 function clear(message) {
     message.channel.messages.fetch({ limit: 100 })
         .then((result) => {
@@ -282,7 +286,7 @@ function clear(message) {
         })
 }
 
-
+// Function to start the bot server
 async function startBot() {
     let myURL = `http://localhost:${port}/discord/start/${bot_selected.id}`;
     await fetch(myURL, {
@@ -292,7 +296,7 @@ async function startBot() {
         cache: 'default'
     });
 }
-
+// Function to set the brain
 async function setBrain(brain) {
     let myURL = `http://localhost:${bot_selected.port}/brain`;
     const myBody = JSON.stringify({
@@ -307,6 +311,7 @@ async function setBrain(brain) {
     })
 }
 
+// Prints help in the channel
 function help(message) {
     message.channel.send("Welcome to our ChatBot service. Type !start to begin chatting and !reset to reset the service ! You can change the brain during the conversation. View the brains with !brains then select it with !select <number>")
 }

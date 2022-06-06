@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const port = process.env.PORT;
 
+// Empty the database of all brains then populate with the content of the brains folder
 const brain_refresh = (req, res) => {
     var liste = fs.readdirSync('./Server/brains');
     var brains = '';

@@ -3,12 +3,12 @@ require('dotenv').config()
 
 const port = process.env.PORT;
 
-
+// Display the view to create a bot
 const bot_create = (req, res) => {
-    // const port 
     res.render('./admin/create', { title: 'Create a new bot', subtitle: '' });
 }
 
+// Add a new bot to the database then redirect to the admin home page
 const bot_add = (req, res) => {
     const bot = new Bot(req.body);
     bot.save()
@@ -21,6 +21,7 @@ const bot_add = (req, res) => {
         })
 }
 
+// Display the view to the admin home page
 const bot_index = (req, res) => {
     Bot.find().sort({ createdAt: -1 })
         .then((result) => {
@@ -31,6 +32,7 @@ const bot_index = (req, res) => {
         });
 }
 
+// Display the view to the bot details of the selected bot
 const bot_details = (req, res) => {
     Bot.findById(req.params.id)
         .then(result => {
@@ -42,6 +44,7 @@ const bot_details = (req, res) => {
         });
 }
 
+// Delete the selected bot from the database then redirect to the admin home page
 const bot_delete = (req, res) => {
     const id = req.params.id;
     Bot.findByIdAndDelete(id)
@@ -53,6 +56,7 @@ const bot_delete = (req, res) => {
         });
 }
 
+// Display the view to edit the selected bot
 const bot_edit_window = (req, res) => {
     Bot.findById(req.params.id)
         .then(result => {
@@ -60,6 +64,7 @@ const bot_edit_window = (req, res) => {
         })
 }
 
+// Update the selected bot in the database then redirect to the admin home page
 const bot_edit = (req, res) => {
     const update = req.body;
     let doc = Bot.findByIdAndUpdate(req.params.id, update)
