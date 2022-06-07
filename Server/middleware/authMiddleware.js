@@ -1,12 +1,15 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
+require('dotenv').config();
+
+const hashingKey = process.env.hashingKey;
 
 // If the user is not connected, redirect him to the login page
 const requireAuth = (req, res, next) => {
     const token = req.cookies.jwt;
 
     if (token) {
-        jwt.verify(token, 'this is the private key', (err, decodedToken) => {
+        jwt.verify(token, hashingKey, (err, decodedToken) => {
             if (err) {
                 console.log(err.message)
                 res.redirect('/auth/login');
@@ -26,7 +29,7 @@ const requireAuth = (req, res, next) => {
 const checkUser = (req, res, next) => {
     const token = req.cookies.jwt;
     if (token) {
-        jwt.verify(token, 'this is the private key', async (err, decodedToken) => {
+        jwt.verify(token, hashingKey, async (err, decodedToken) => {
             if (err) {
                 res.locals.user = null;
                 next();
@@ -46,7 +49,7 @@ const checkUser = (req, res, next) => {
 const requireAdmin = (req, res, next) => {
     const token = req.cookies.jwt;
     if (token) {
-        jwt.verify(token, 'this is the private key', async (err, decodedToken) => {
+        jwt.verify(token, hashingKey, async (err, decodedToken) => {
             if (err) {
                 res.send('Could not verify token');
                 next();
