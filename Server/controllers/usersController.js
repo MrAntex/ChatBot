@@ -41,7 +41,9 @@ const users_start = (req, res) => {
                     proc.on('close', (code) => {
                         console.log(`child process exited with code ${code}`);
                     });
-                    res.redirect(`http://localhost:${result.port}`);
+                    setTimeout (function(){
+                        res.redirect(`http://localhost:${result.port}`);
+                    }, 1000); 
                 })
             })
         });
